@@ -871,6 +871,8 @@ const (
 
 // Defines values for RewardsStatementType.
 const (
+	RewardsStatementTypeEbpRewards     RewardsStatementType = "STATEMENT_TYPE_EBP_REWARDS"
+	RewardsStatementTypeManualRewards  RewardsStatementType = "STATEMENT_TYPE_MANUAL_REWARDS"
 	RewardsStatementTypeMonthlyRewards RewardsStatementType = "STATEMENT_TYPE_MONTHLY_REWARDS"
 )
 
@@ -1886,6 +1888,8 @@ const (
 
 // Defines values for ListRewardsStatementsParamsType.
 const (
+	ListRewardsStatementsParamsTypeEbpRewards     ListRewardsStatementsParamsType = "STATEMENT_TYPE_EBP_REWARDS"
+	ListRewardsStatementsParamsTypeManualRewards  ListRewardsStatementsParamsType = "STATEMENT_TYPE_MANUAL_REWARDS"
 	ListRewardsStatementsParamsTypeMonthlyRewards ListRewardsStatementsParamsType = "STATEMENT_TYPE_MONTHLY_REWARDS"
 )
 
@@ -5999,6 +6003,9 @@ type RewardsStatement struct {
 	//
 	//  - STATEMENT_TYPE_MONTHLY_REWARDS: Monthly statement: PDF rewards summary with daily balance totals, rates, and
 	// per-payout-group breakdown, plus a CSV per-wallet daily balance export.
+	//  - STATEMENT_TYPE_MANUAL_REWARDS: Manual monthly statement: PDF rewards summary that includes acceptance and
+	// mint attribution incentives.
+	//  - STATEMENT_TYPE_EBP_REWARDS: Eligible Blockchain Partner (EBP) statement: PDF rewards summary for a single chain.
 	Type *RewardsStatementType `json:"type,omitempty"`
 }
 
@@ -6035,6 +6042,10 @@ type RewardsStatementStatus string
 //   - STATEMENT_TYPE_MONTHLY_REWARDS: Monthly statement: PDF rewards summary with daily balance totals, rates, and
 //
 // per-payout-group breakdown, plus a CSV per-wallet daily balance export.
+//   - STATEMENT_TYPE_MANUAL_REWARDS: Manual monthly statement: PDF rewards summary that includes acceptance and
+//
+// mint attribution incentives.
+//   - STATEMENT_TYPE_EBP_REWARDS: Eligible Blockchain Partner (EBP) statement: PDF rewards summary for a single chain.
 type RewardsStatementType string
 
 // SandboxBackdateIdentityClosureRequest defines model for SandboxBackdateIdentityClosureRequest.
@@ -6532,7 +6543,11 @@ type Transfer struct {
 
 	// SecondaryStatus Secondary status for the transfer, used for more granular explanation of the transfer status.
 	SecondaryStatus *SecondaryStatus `json:"secondary_status,omitempty"`
-	Status          TransferStatus   `json:"status"`
+
+	// SenderAddress For crypto deposits, the on-chain address that sent the funds.
+	// Empty for withdrawals and for UTXO networks (e.g. `BITCOIN`, `LITECOIN`), where a deposit can spend coins from several addresses.
+	SenderAddress *string        `json:"sender_address,omitempty"`
+	Status        TransferStatus `json:"status"`
 
 	// StatusDetails TransferStatusDetails provides additional information about why a transfer
 	// is in its current state. This field is only populated when a transfer
@@ -8075,6 +8090,9 @@ type ListRewardsStatementsParams struct {
 	//
 	//  - STATEMENT_TYPE_MONTHLY_REWARDS: Monthly statement: PDF rewards summary with daily balance totals, rates, and
 	// per-payout-group breakdown, plus a CSV per-wallet daily balance export.
+	//  - STATEMENT_TYPE_MANUAL_REWARDS: Manual monthly statement: PDF rewards summary that includes acceptance and
+	// mint attribution incentives.
+	//  - STATEMENT_TYPE_EBP_REWARDS: Eligible Blockchain Partner (EBP) statement: PDF rewards summary for a single chain.
 	Type *ListRewardsStatementsParamsType `form:"type,omitempty" json:"type,omitempty"`
 }
 

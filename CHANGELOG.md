@@ -2,6 +2,17 @@
 
 All notable changes to the Paxos Go SDK are documented here.
 
+## 0.1.1 - 2026-11-18
+
+### API changes
+
+#### New and changed
+
+- `CreateCryptoWithdrawal`, `CreateFiatWithdrawal`, `CreateInternalTransfer`, `CreatePaxosTransfer`, `GetTransfer`, `ListTransfers`: added the optional property `sender_address` to the response.
+- `GetRewardsStatement`: response field `statement.type` can now also be `STATEMENT_TYPE_EBP_REWARDS` or `STATEMENT_TYPE_MANUAL_REWARDS`.
+- `ListRewardsStatements`: `type` filter now also accepts `STATEMENT_TYPE_EBP_REWARDS` or `STATEMENT_TYPE_MANUAL_REWARDS`.
+- `ListRewardsStatements`: response field `type` can now also be `STATEMENT_TYPE_EBP_REWARDS` or `STATEMENT_TYPE_MANUAL_REWARDS`.
+
 ## 0.1.0
 
 Initial beta release of the Paxos Go SDK.
